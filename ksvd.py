@@ -59,4 +59,4 @@ if __name__ == '__main__':
     D, A = ksvd(X, D0, m)
     
     # Enregistrer le dictionnaire dans un fichier CSV
-    pd.DataFrame(D).to_csv("Dico-appris.csv", index=False)
+    pd.DataFrame(D).to_csv("Dico-appris.csv", index=False, header=False)
