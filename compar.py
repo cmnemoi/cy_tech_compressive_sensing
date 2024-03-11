@@ -74,5 +74,5 @@ if __name__ == '__main__':
 
     save_algorithms_comparaison_to_csv(comparaison)
 
-    print("Comparaison des algorithmes pour la représentation parcimonieuse des signaux:")
+    print("Comparaison des erreurs quadratiques moyennes des algorithmes sur les trois signaux de test:")
     print(comparaison)
