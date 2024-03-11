@@ -6,7 +6,8 @@ from numpy.linalg import norm
 from tkinter import N
 from numpy.core.fromnumeric import argmax
 from re import X
-def irls(x,D,iterMax, eps,p):
+
+def irls(x,D,p,eps=10**-4,iterMax=100):
     n,k=np.shape(D)
     alpha=np.eros(k)
     Q=np.zeros((k,k))

@@ -1,14 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from scipy.fftpack import dct
 from numpy.linalg import norm
 from tkinter import N
 from numpy.core.fromnumeric import argmax
-eps=0.0001
-iterMax= 100
 
-def OMP(x, D, eps, iterMax):
+def OMP(x, D, eps=10**-4, iterMax=100):
     n, k = np.shape(D)
     it = 0
     alpha = np.zeros((k, 1))  # Utilisez np.zeros pour initialiser alpha comme un vecteur colonne.

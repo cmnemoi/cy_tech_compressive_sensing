@@ -6,9 +6,8 @@ from numpy.linalg import norm
 from tkinter import N
 from numpy.core.fromnumeric import argmax
 
-eps=0.0001
-iterMax= 100
-def Cosamp(x,D,eps,iterMax,s):
+
+def Cosamp(x,D,s,eps=10**-4,iterMax=100):
     n,k=np.shape(D)
     it=0
     alpha=np.zeros(k)
