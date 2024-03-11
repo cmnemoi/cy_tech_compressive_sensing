@@ -1,7 +1,11 @@
 import numpy as np
 from numpy.linalg import norm
 
-def Cosamp(x,D,s,eps=10**-4,iterMax=100):
+def Cosamp(x,D,s=None,eps=10**-4,iterMax=100):
+    # Estimation de s proposée dans le papier introduisant CoSaMP (D. Needell and J. A. Tropp, 2008)
+    if s is None:
+        s = int( ( len(D) / ( 2 * np.log(len(x)) ) ) )
+
     n,k=np.shape(D)
     it=0
     alpha=np.zeros(k)
@@ -30,6 +34,7 @@ def Cosamp(x,D,s,eps=10**-4,iterMax=100):
         R=x-np.dot(A,alpha[index])
         it=it+1
     return alpha, R, it, index
+
 
 if __name__ == '__main__':
     D = np.array([
