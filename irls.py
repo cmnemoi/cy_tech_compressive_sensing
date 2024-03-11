@@ -1,11 +1,5 @@
-import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
-from scipy.fftpack import dct
 from numpy.linalg import norm
-from tkinter import N
-from numpy.core.fromnumeric import argmax
-from re import X
 
 def irls(x,D,p,eps=10**-4,iterMax=100):
     n,k=np.shape(D)
@@ -13,7 +7,7 @@ def irls(x,D,p,eps=10**-4,iterMax=100):
     Q=np.zeros((k,k))
     it=0
     #initialisation de alpha
-    alpha0=D.T@np.inv(D@D.T)@X
+    alpha0=D.T@np.inv(D@D.T)@x
     test=True
     #Boucle principale
     while test and it<iterMax:

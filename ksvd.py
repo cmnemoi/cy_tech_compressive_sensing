@@ -1,10 +1,6 @@
-import matplotlib.pyplot as plt
-import pandas as pd
+
 import numpy as np
-from scipy.fftpack import dct
 from numpy.linalg import norm
-from tkinter import N
-from numpy.core.fromnumeric import argmax
 
 from omp import OMP
 

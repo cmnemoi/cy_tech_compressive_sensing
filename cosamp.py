@@ -1,11 +1,5 @@
-import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
-from scipy.fftpack import dct
 from numpy.linalg import norm
-from tkinter import N
-from numpy.core.fromnumeric import argmax
-
 
 def Cosamp(x,D,s,eps=10**-4,iterMax=100):
     n,k=np.shape(D)
