@@ -1,14 +1,7 @@
-import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
-from scipy.fftpack import dct
 from numpy.linalg import norm
-from tkinter import N
-from numpy.core.fromnumeric import argmax
 
-eps=0.0001
-iterMax= 100
-def StOMP(x,D,eps,iterMax, t):
+def StOMP(x,D,eps=10**-4,iterMax=100,t=0.8):
     n,k=np.shape(D)
     it=0
     alpha=np.matrix(np.zeros(k)).T
@@ -36,3 +29,13 @@ def StOMP(x,D,eps,iterMax, t):
         R=x-np.dot(A,alpha[index])
         it=it+1
     return alpha, R, it, index
+
+if __name__ == '__main__':
+    D = np.array([
+        [np.sqrt(2)/2, np.sqrt(3)/3, np.sqrt(6)/3, 2/3, -1/3],
+        [-np.sqrt(2)/2, -np.sqrt(3)/3, -np.sqrt(6)/6, 2/3, -2/3],
+        [0, -np.sqrt(3)/3, np.sqrt(6)/6, 1/3, 2/3]
+    ])
+    x = np.array([4/3 - np.sqrt(2)/2, 4/3 + np.sqrt(2)/2, 2/3]).T
+
+    print(StOMP(x, D))

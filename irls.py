@@ -1,13 +1,13 @@
 import numpy as np
 from numpy.linalg import norm
 
-def irls(x,D,p,eps=10**-4,iterMax=100):
+def irls(x,D,p=2,eps=10**-4,iterMax=100):
     n,k=np.shape(D)
-    alpha=np.eros(k)
+    alpha=np.zeros(k)
     Q=np.zeros((k,k))
     it=0
     #initialisation de alpha
-    alpha0=D.T@np.inv(D@D.T)@x
+    alpha0= D.T @ np.linalg.inv(D @ D.T) @ x
     test=True
     #Boucle principale
     while test and it<iterMax:
@@ -16,7 +16,7 @@ def irls(x,D,p,eps=10**-4,iterMax=100):
             z=(np.abs(alpha0[i])**2+eps)**(p/2-1)
             Q[i,i]=1/z
             #calcul du nouvel alpha
-            alpha=Q@D.T@np.inv(D@D@D.T)@x
+            alpha=Q @ D.T @ np.linalg.inv(D @ D @ D.T) @ x
             #critère d'arrêt:
             if norm(alpha-alpha0)<np.sqrt(eps)/100 and eps<10**(-8):
                 test= False
@@ -26,3 +26,13 @@ def irls(x,D,p,eps=10**-4,iterMax=100):
                 it=+1
 
     return alpha, it
+
+if __name__ == '__main__':
+    D = np.array([
+        [np.sqrt(2)/2, np.sqrt(3)/3, np.sqrt(6)/3, 2/3, -1/3],
+        [-np.sqrt(2)/2, -np.sqrt(3)/3, -np.sqrt(6)/6, 2/3, -2/3],
+        [0, -np.sqrt(3)/3, np.sqrt(6)/6, 1/3, 2/3]
+    ])
+    x = np.array([4/3 - np.sqrt(2)/2, 4/3 + np.sqrt(2)/2, 2/3]).T
+
+    print(irls(x, D))
