@@ -1,14 +1,11 @@
 import pandas as pd
 import numpy as np
-from numpy.linalg import norm
-from omp import OMP
- 
-eps=0.0001
-iterMax= 100
- 
- 
 
-def ksvd(X, D0, m):
+from numpy.linalg import norm
+
+from omp import OMP
+
+def ksvd(X, D0, m, eps=10**-4, iterMax=100):
     n, l = np.shape(X)
     _, k = np.shape(D0)
     A = np.zeros((k, l))  # matrice Lambda des représentations parcimonieuses
@@ -45,22 +42,21 @@ def ksvd(X, D0, m):
                     A[i, Wi] = S[0] * V[0, :]
  
     return D, A
- 
- 
- 
-data1 = pd.read_excel("DonneesProjet.xlsx", header=None)
-data = data1.apply(pd.to_numeric, errors='coerce')# transformation object ---> float
-X = data.iloc[:, :100].values  # Sélectionner les 100 premières colonnes
- 
-# Initialiser le dictionnaire D0
-n, l = X.shape
-k = 100  # Nombre d'atomes dans le dictionnaire
-D0 = np.random.rand(n, k)
-D0 = D0 / norm(D0, axis=0)  # Normaliser les colonnes
- 
-# Appliquer l'algorithme k-SVD
-m = 10  # Nombre d'itérations de l'algorithme k-SVD
-D, A = ksvd(X, D0, m)
- 
-# Enregistrer le dictionnaire dans un fichier CSV
-pd.DataFrame(D).to_csv("Dico-appris.csv", index=False)
+
+if __name__ == '__main__': 
+    data1 = pd.read_excel("DonneesProjet.xlsx", header=None)
+    data = data1.apply(pd.to_numeric, errors='coerce')# transformation object ---> float
+    X = data.iloc[:, :100].values  # Sélectionner les 100 premières colonnes
+    
+    # Initialiser le dictionnaire D0
+    n, l = X.shape
+    k = 100  # Nombre d'atomes dans le dictionnaire
+    D0 = np.random.rand(n, k)
+    D0 = D0 / norm(D0, axis=0)  # Normaliser les colonnes
+    
+    # Appliquer l'algorithme k-SVD
+    m = 10  # Nombre d'itérations de l'algorithme k-SVD
+    D, A = ksvd(X, D0, m)
+    
+    # Enregistrer le dictionnaire dans un fichier CSV
+    pd.DataFrame(D).to_csv("Dico-appris.csv", index=False)
