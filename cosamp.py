@@ -30,3 +30,13 @@ def Cosamp(x,D,s,eps=10**-4,iterMax=100):
         R=x-np.dot(A,alpha[index])
         it=it+1
     return alpha, R, it, index
+
+if __name__ == '__main__':
+    D = np.array([
+        [np.sqrt(2)/2, np.sqrt(3)/3, np.sqrt(6)/3, 2/3, -1/3],
+        [-np.sqrt(2)/2, -np.sqrt(3)/3, -np.sqrt(6)/6, 2/3, -2/3],
+        [0, -np.sqrt(3)/3, np.sqrt(6)/6, 1/3, 2/3]
+    ])
+    x = np.array([4/3 - np.sqrt(2)/2, 4/3 + np.sqrt(2)/2, 2/3]).T
+
+    print(Cosamp(x, D, len(x)-1))
