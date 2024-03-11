@@ -22,7 +22,7 @@ Generate an SSH key:
 
 Then clone this Git repository: 
 
-`git clone git@github.com:cmnemoi/cy_tech_compressive_sensing .git && cd cy_tech_compressive_sensing` 
+`git clone git@github.com:cmnemoi/cy_tech_compressive_sensing && cd cy_tech_compressive_sensing` 
 
 (enter `yes` if you're asked to confirm that the SSH key has been added to the list of known keys)
 
