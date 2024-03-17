@@ -25,7 +25,7 @@ def irls(x, D, iterMax=100, eps=10**-4, p=3):
             alpha0 = alpha
             it += 1
  
-    return alpha, it
+    return alpha, None, it, None
 
 if __name__ == '__main__':
     D = np.array([

@@ -10,10 +10,12 @@ import pandas as pd
 
 from omp import OMP
 from cosamp import Cosamp
+from irls import irls
 
 ALGORITHMS = {
     "OMP": OMP,
-    "CoSaMP": Cosamp
+    "CoSaMP": Cosamp,
+    "IRLS": irls,
 }
 
 def get_algorithm_mse_on_test_set(algorithm: callable, test_set: pd.DataFrame, dictionnary: np.ndarray) -> float:
