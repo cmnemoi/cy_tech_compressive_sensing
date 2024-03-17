@@ -1,34 +1,45 @@
-import numpy as np
-from numpy.linalg import norm
+"""
+This file contains the implementation of the StOMP (Stagewise Orthogonal Matching Pursuit) algorithm.
 
-def StOMP(x,D,eps=10**-4,iterMax=100,t=0.8):
-    n,k=np.shape(D)
-    it=0
-    alpha=np.matrix(np.zeros(k)).T
-    R=x
-    index=[]
-    A=np.empty((n,0))
-    ps=np.zeros(k)
-    while norm(R)>eps and it<iterMax:
-        for j in range (k):
-            ps[j]=np.abs(np.dot(D[:,j].T,R))/norm(D[:,j])
-        #m=np.argmax(ps)
-        #Calcul du seuil
-        Seuil=t*norm(R)/np.sqrt(k)
-        #sélection des atomes dont la contrib >Seuil
-        m=np.where(ps > Seuil)[0]
-        #ajout des nouveaux indices aux anciens
-        V=set(index)|set(m)
-        index=list(V)
-       # index.append(index)
-        #Matrice formée dess atomes sélectionnés
-        A=D[:,index]
-        #Application des moindres carrés
-        alpha[index]=np.dot(np.linalg.pinv(A),x)
-        #Actualisation du résidu
-        R=x-np.dot(A,alpha[index])
-        it=it+1
-    return alpha, R, it, index
+Author: Charles-Meldhine Madi Mnemoi
+"""
+
+import numpy as np
+
+def stomp(x: np.ndarray, D: np.ndarray, epsilon: float = 10**-4, max_iterations: int = 100, threshold_coefficient: float = 2):
+    """
+    StOMP (Stagewise Orthogonal Matching Pursuit) algorithm.
+    This algorithm is used to compute the parcimonious signal representation of a given signal x, for a given dictionnary D.
+
+    Args:
+        x (np.ndarray): the signal to find the parcimonious representation of.
+        D (np.ndarray): the dictionnary to use to compute the parcimonious representation of x.
+        epsilon (float, optional): the precision of the algorithm. Defaults to 10**-4.
+        max_iterations (int, optional): the maximum number of iterations of the algorithm. Defaults to 100.
+        threshold_coefficient (float, optional): the coefficient to use to compute the threshold. Defaults to 2. 
+    """
+    k = np.shape(D)[1]
+    alpha = np.zeros(k)
+    residual = x
+    nb_iterations = 0
+    indexes = []
+    while np.linalg.norm(residual, ord=2) > epsilon and nb_iterations < max_iterations:
+        # Compute the contribution of each atom to the residual
+        contributions = np.abs(D.T @ residual) / np.linalg.norm(D, ord=2, axis=0)
+        # Compute the threshold vector
+        threshold = threshold_coefficient * np.linalg.norm(residual, ord=2) / np.sqrt(k)
+        # Find the indexes of the atoms which contribution is above the threshold
+        indexes.extend(np.where(contributions > threshold)[0])
+        indexes = list(set(indexes))
+        # Compute the new alpha vector
+        A = D[:, indexes]
+        alpha[indexes] = np.linalg.pinv(A) @ x
+        # Compute the new residual
+        residual = x - A @ alpha[indexes]
+        # Increment the number of iterations
+        nb_iterations += 1
+
+    return alpha, residual, nb_iterations, indexes
 
 if __name__ == '__main__':
     D = np.array([
@@ -38,4 +49,4 @@ if __name__ == '__main__':
     ])
     x = np.array([4/3 - np.sqrt(2)/2, 4/3 + np.sqrt(2)/2, 2/3]).T
 
-    print(StOMP(x, D))
+    print(stomp(x, D))
