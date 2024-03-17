@@ -3,6 +3,8 @@ Script for comparing the performances of the different algorithms used to comput
 
 It computes the Mean Squared Error of the OMP and CoSaMP algorithms on the test set, for a given dictionnary.
 It prints the comparaison in the console and saves them in a CSV file.
+
+Author: Charles-Meldhine Madi Mnemoi
 """
 
 import numpy as np
@@ -11,11 +13,13 @@ import pandas as pd
 from omp import OMP
 from cosamp import Cosamp
 from irls import irls
+from stomp import stomp
 
 ALGORITHMS = {
     "OMP": OMP,
     "CoSaMP": Cosamp,
     "IRLS": irls,
+    "StOMP": stomp
 }
 
 def get_algorithm_mse_on_test_set(algorithm: callable, test_set: pd.DataFrame, dictionnary: np.ndarray) -> float:
@@ -68,12 +72,16 @@ def save_algorithms_comparaison_to_csv(comparaison: dict[str, int]) -> None:
     comparaison_dataframe.to_csv("comparaison.csv", index=False)
     
 if __name__ == '__main__':
+    print("Chargement des données...")
     dictionnary, test_set = load_data()
+
+    print("Comparaison des algorithmes...")
     comparaison = {
         algorithm_name: get_algorithm_mse_on_test_set(algorithm, test_set, dictionnary) 
         for algorithm_name, algorithm in ALGORITHMS.items()
     }
 
+    print("Sauvegarde de la comparaison dans un fichier CSV...")
     save_algorithms_comparaison_to_csv(comparaison)
 
     print("Comparaison des erreurs quadratiques moyennes des algorithmes sur les trois signaux de test:")
